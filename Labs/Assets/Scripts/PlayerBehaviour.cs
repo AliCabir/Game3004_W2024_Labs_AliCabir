@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -17,7 +16,8 @@ public class PlayerBehaviour : MonoBehaviour
     public float groundRadius = 0.5f;
     public LayerMask groundMask;
     public bool isGrounded;
-
+    public Transform respawnPlayerPosition;
+    private bool isRespawning;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +28,12 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isRespawning)
+        {
+            transform.position = respawnPlayerPosition.position;
+            return;
+        }
+        
         isGrounded = Physics.CheckSphere(groundPoint.position, groundRadius, groundMask);
 
         if (isGrounded && velocity.y < 0.0f)
@@ -55,5 +61,23 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(groundPoint.position, groundRadius);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("DeathPlane") && !isRespawning)
+        {
+            StartCoroutine(RespawnPlayer());
+        }
+    }
+
+    IEnumerator RespawnPlayer()
+    {
+        isRespawning = true;
+        isGrounded = Physics.CheckSphere(groundPoint.position, groundRadius, groundMask);
+
+        yield return new WaitForSeconds(.1f); 
+
+        isRespawning = false;
     }
 }
