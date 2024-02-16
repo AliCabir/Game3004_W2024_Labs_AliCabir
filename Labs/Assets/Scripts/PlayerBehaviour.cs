@@ -19,10 +19,14 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform respawnPlayerPosition;
     private bool isRespawning;
 
+
+    private HealthBarController healthBarController;
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
+
+        healthBarController = FindAnyObjectByType<HealthBarController>();
     }
 
     // Update is called once per frame
@@ -69,6 +73,11 @@ public class PlayerBehaviour : MonoBehaviour
         {
             StartCoroutine(RespawnPlayer());
         }
+
+        if (other.CompareTag("Hazard"))
+        {
+            healthBarController.GetDamage(20);
+        }
     }
 
     IEnumerator RespawnPlayer()
@@ -80,4 +89,6 @@ public class PlayerBehaviour : MonoBehaviour
 
         isRespawning = false;
     }
+
+
 }
