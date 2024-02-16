@@ -12,6 +12,7 @@ public class HealthBarController : MonoBehaviour
     {
         healthBar = GetComponent<Slider>();
         currentHealth = healthBar.maxValue;
+        healthBar.value = currentHealth;
     }
 
 
