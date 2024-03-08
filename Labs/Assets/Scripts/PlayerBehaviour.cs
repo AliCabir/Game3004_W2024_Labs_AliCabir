@@ -19,6 +19,8 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform respawnPlayerPosition;
     private bool isRespawning;
 
+    public Joystick leftJoystick;
+    public GameObject miniMap;
 
     private HealthBarController healthBarController;
     // Start is called before the first frame update
@@ -45,16 +47,15 @@ public class PlayerBehaviour : MonoBehaviour
             velocity.y = -2.0f;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x = Input.GetAxis("Horizontal") + leftJoystick.Horizontal;
+        float z = Input.GetAxis("Vertical") + leftJoystick.Vertical;
+
+
 
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * maxSpeed * Time.deltaTime);
 
-        if (Input.GetButton("Jump") && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
-        }
+        
 
         velocity.y += gravity * Time.deltaTime;
 
@@ -90,5 +91,17 @@ public class PlayerBehaviour : MonoBehaviour
         isRespawning = false;
     }
 
+    public void JumpButton()
+    {
+        if (isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
+        }
+    }
+
+    public void MapButton()
+    {
+        miniMap.SetActive(!miniMap.activeInHierarchy);
+    }
 
 }
