@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     {
         if (Application.platform != RuntimePlatform.Android)
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -26,10 +26,13 @@ public class CameraController : MonoBehaviour
         float controlX;
         float controlY;
 
-        if (Application.platform != RuntimePlatform.Android)
+        if (Application.platform != RuntimePlatform.Android) // Not Mobile
         {
-             controlX = Input.GetAxis("Mouse X") * controlSens;
-             controlY = Input.GetAxis("Mouse Y") * controlSens;
+            controlX = Input.GetAxis("Mouse X") * controlSens;
+            controlY = Input.GetAxis("Mouse Y") * controlSens;
+
+            //controlX = rightJoystick.Horizontal * controlSens;
+            //controlY = rightJoystick.Vertical * controlSens;
         }
         else
         {
@@ -43,5 +46,6 @@ public class CameraController : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(XRotation, 0.0f, 0.0f);
         playerBody.Rotate(Vector3.up * controlX);
+
     }
 }
