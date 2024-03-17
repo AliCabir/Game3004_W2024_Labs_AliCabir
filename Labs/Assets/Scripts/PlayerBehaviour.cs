@@ -23,12 +23,21 @@ public class PlayerBehaviour : MonoBehaviour
     public GameObject miniMap;
 
     private HealthBarController healthBarController;
+
+    public GameObject ScreenControllersParent;
+
+    public bool isScreenControllersActive = false;
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
 
         healthBarController = FindAnyObjectByType<HealthBarController>();
+
+        if (Application.platform != RuntimePlatform.Android && !isScreenControllersActive)
+        {
+            ScreenControllersParent.SetActive(false); 
+        }
     }
 
     // Update is called once per frame
@@ -60,6 +69,16 @@ public class PlayerBehaviour : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            JumpButton();
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            MapButton();
+        }
     }
 
     void OnDrawGizmos()

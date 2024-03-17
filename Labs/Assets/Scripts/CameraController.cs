@@ -14,18 +14,29 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
-
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        //float mouseX = Input.GetAxis("Mouse X") * controlSens;
-        //float mouseY = Input.GetAxis("Mouse Y") * controlSens;
+        float controlX;
+        float controlY;
 
-        float controlX = rightJoystick.Horizontal * controlSens;
-        float controlY = rightJoystick.Vertical * controlSens;
+        if (Application.platform != RuntimePlatform.Android)
+        {
+             controlX = Input.GetAxis("Mouse X") * controlSens;
+             controlY = Input.GetAxis("Mouse Y") * controlSens;
+        }
+        else
+        {
+            controlX = rightJoystick.Horizontal * controlSens;
+            controlY = rightJoystick.Vertical * controlSens;
+        }
+
 
         XRotation -= controlY;
         XRotation = Mathf.Clamp(XRotation, -90.0f, 90.0f);

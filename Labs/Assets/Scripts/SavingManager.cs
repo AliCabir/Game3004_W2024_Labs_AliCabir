@@ -5,6 +5,18 @@ using UnityEngine;
 public class SavingManager : MonoBehaviour
 {
     public Transform player;
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            SaveGame();
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            LoadGame();
+        }
+    }
     public void SaveGame()
     {
         PlayerPrefs.SetFloat("SavedPositionX", player.transform.position.x);
