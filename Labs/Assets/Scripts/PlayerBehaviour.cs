@@ -98,6 +98,10 @@ public class PlayerBehaviour : MonoBehaviour
         {
             healthBarController.GetDamage(20);
         }
+        if (other.CompareTag("Punch"))
+        {
+            healthBarController.GetDamage(20);
+        }
     }
 
     IEnumerator RespawnPlayer()
